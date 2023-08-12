@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    /*宽松的配置*/
+    /* 宽松的配置 */
     "allowJs": true,
     "checkJs": false,
     "noImplicitAny": false,
