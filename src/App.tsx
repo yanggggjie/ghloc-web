@@ -1,43 +1,58 @@
 import { clsx } from 'clsx'
 import _ from 'lodash-es'
-import { Link, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
+import Header from './components/Header.tsx'
+import Home from './components/Home/Home.tsx'
+import { Route, Routes } from 'react-router-dom'
+import Detail from './components/Detail/Detail.tsx'
+import { useRef, useState } from 'react'
 interface Props {}
-function PageIndex() {
-  return <div>index</div>
-}
-function PageA() {
-  return <div>a</div>
-}
-function PageB() {
-  return <div>b</div>
-}
-function Page404() {
-  return <div>404</div>
-}
 
 function Component({}: Props) {
-  const navigate = useNavigate()
-  function handleIndexClick() {
-    navigate('/')
-  }
   return (
-    <div>
-      <button onClick={handleIndexClick}>back to index</button>
-
-      <div className={clsx('flex flex-row')}>
-        <Link to={'/'}>index</Link>
-        <Link to={'/a'}>a</Link>
-        <Link to={'/b'}>b</Link>
-      </div>
+    <div className={clsx('m-4')}>
+      <Header></Header>
       <Routes>
-        <Route path={'/'} element={<PageIndex />}></Route>
-        <Route path={'/a'} element={<PageA />}></Route>
-        <Route path={'/b'} element={<PageB />}></Route>
-        <Route path={'/404'} element={<Page404 />}></Route>
-        <Route path={'*'} element={<Navigate to={'/404'} />}></Route>
+        <Route path={'/'} element={<Home />}></Route>
+        <Route path={'/detail/:user/:repo'} element={<Detail />}></Route>
       </Routes>
+      <InputFocusTest></InputFocusTest>
     </div>
   )
 }
 
 export default Component
+
+function InputFocusTest() {
+  const [showButton, setShowButton] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  function handleButtonMouseDown(
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) {
+    console.log('handleButtonMouseDown')
+    e.preventDefault()
+  }
+  function handleInputFocus() {
+    setShowButton(true)
+  }
+  function handleInputBlur() {
+    setShowButton(false)
+  }
+  return (
+    <div>
+      <input
+        type="text"
+        ref={inputRef}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
+      />
+      {showButton && (
+        <div onMouseDown={handleButtonMouseDown}>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus
+          earum facilis id iusto maiores molestiae neque ullam! Ea laudantium
+          minus perferendis vitae! Asperiores beatae blanditiis, ipsum molestiae
+          possimus qui quisquam!
+        </div>
+      )}
+    </div>
+  )
+}

@@ -8,4 +8,5 @@ export default {
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
   ],
+  darkMode: 'class',
 }
